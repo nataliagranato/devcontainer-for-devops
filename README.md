@@ -1,15 +1,75 @@
-# Repository Sample
+# O que é um DevContainer?
 
-Este é um repositório de exemplo criado para demonstrar o uso do GitHub. 
+Um **DevContainer** é uma funcionalidade do Visual Studio Code que permite configurar um ambiente de desenvolvimento isolado dentro de um contêiner Docker. Ele é definido por arquivos de configuração, como `devcontainer.json`, que especificam a imagem base, ferramentas, extensões e configurações necessárias para o desenvolvimento. 
 
-## Uso
+Ao usar um DevContainer, você garante que todos os desenvolvedores de um projeto tenham o mesmo ambiente, eliminando problemas de inconsistência entre máquinas e simplificando o processo de configuração.
 
-Ao acessar o repositório, no canto superior direito clique em `Use this template` para começar.
+## Benefícios do DevContainer
 
-## Contato
+- **Isolamento**: O ambiente de desenvolvimento é executado dentro de um contêiner, separado do sistema operacional do desenvolvedor.
+- **Reprodutibilidade**: O ambiente pode ser recriado facilmente em qualquer máquina com Docker e VS Code.
+- **Produtividade**: Ferramentas e dependências já configuradas economizam tempo e esforço.
+- **Consistência**: Todos os desenvolvedores utilizam o mesmo ambiente, reduzindo erros relacionados a diferenças de configuração.
 
-Para mais informações, entre em contato através do [GitHub Sponsors](https://github.com/sponsors/Tech-Preta).
+Este repositório contém uma configuração de DevContainer projetada para tarefas de **DevOps**, com ferramentas como Docker CLI, Kubernetes, Helm e KinD pré-instaladas, além de extensões úteis para o VS Code.
+
+## Funcionalidades do DevContainer
+
+O DevContainer configurado neste repositório oferece as seguintes funcionalidades:
+
+1. **Ambiente Isolado**:
+   - O DevContainer utiliza um contêiner Docker como ambiente de desenvolvimento, garantindo que as dependências e configurações não interfiram no sistema operacional do desenvolvedor.
+
+2. **Ferramentas Pré-Instaladas**:
+   - **Docker CLI**: Para gerenciar contêineres e imagens Docker.
+   - **kubectl**: Para interagir com clusters Kubernetes.
+   - **KinD (Kubernetes in Docker)**: Para criar e gerenciar clusters Kubernetes locais.
+   - **Helm**: Para gerenciar pacotes Kubernetes.
+   - **K9s**: Para monitorar e gerenciar clusters Kubernetes via terminal.
+
+3. **Configuração Automática**:
+   - O script `post-create.sh` é executado automaticamente após a criação do DevContainer, configurando:
+     - Verificação de conectividade com o Docker.
+     - Criação de um cluster Kubernetes local usando KinD.
+     - Ajustes no contexto do `kubectl` para facilitar o uso.
+
+4. **Extensões do VS Code**:
+   - Extensões úteis para desenvolvimento DevOps, como:
+     - Docker
+     - Kubernetes
+     - YAML
+     - Code Spell Checker
+     - GitHub Copilot
+
+5. **Mapeamento de Portas**:
+   - As portas necessárias para o funcionamento do cluster Kubernetes e outras ferramentas são encaminhadas automaticamente:
+     - Porta `6443` para o servidor API do Kubernetes.
+     - Porta `2375` para o Docker.
+
+6. **Permissões e Usuário**:
+   - O usuário `vscode` é configurado com permissões adequadas para executar comandos Docker e Kubernetes sem necessidade de senha.
+
+## Importância de um Ambiente Isolado
+
+Ter um ambiente isolado como este é essencial para o desenvolvimento e testes em projetos DevOps, pois:
+
+- **Consistência**: Garante que todos os desenvolvedores utilizem o mesmo ambiente, eliminando problemas relacionados a diferenças de configuração entre máquinas.
+- **Segurança**: Mantém o ambiente de desenvolvimento separado do sistema operacional principal, reduzindo riscos de alterações indesejadas.
+- **Reprodutibilidade**: Permite recriar o ambiente de forma rápida e confiável, facilitando a colaboração e a integração contínua.
+- **Produtividade**: Ferramentas e dependências já configuradas economizam tempo e esforço, permitindo que os desenvolvedores foquem no código.
+
+## Como Usar
+
+1. Certifique-se de ter o Docker instalado e em execução no seu sistema.
+2. Abra este repositório no VS Code.
+3. Quando solicitado, escolha "Reabrir no DevContainer".
+4. Aguarde a configuração automática do ambiente.
+5. Após a configuração, você terá acesso a todas as ferramentas e configurações necessárias para começar a trabalhar.
+
+## Utilizando no GitHub Codespaces
+
+Se preferir, você pode usar este DevContainer diretamente no **GitHub Codespaces**, sem a necessidade de configurar o ambiente localmente. Basta abrir o repositório no Codespaces e o ambiente será configurado automaticamente, garantindo a mesma experiência de desenvolvimento.
 
 ---
 
-Feito com ❤️ por [Natália Granato](https://github.com/nataliagranato).
+Feito com ❤️ para facilitar o desenvolvimento de containers, testes e empacotamento para Kubernetes.
