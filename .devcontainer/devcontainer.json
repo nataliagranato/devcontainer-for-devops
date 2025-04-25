@@ -27,8 +27,8 @@
     }
   },
   "forwardPorts": [
-    2375, // Docker daemon
-    6443 // Kubernetes API server (KinD)
+    2375,
+    6443
   ],
   "postCreateCommand": "bash ./.devcontainer/post-create.sh",
   "remoteUser": "vscode"
