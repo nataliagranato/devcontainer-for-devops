@@ -1,0 +1,58 @@
+# Usar uma imagem base com suporte ao Docker
+FROM mcr.microsoft.com/vscode/devcontainers/base:ubuntu-22.04
+
+# Evitar prompts interativos durante a instalação
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Instalar dependências básicas
+RUN apt-get update && apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release \
+    software-properties-common \
+    git \
+    unzip \
+    jq \
+    && rm -rf /var/lib/apt/lists/*
+
+# Instalar Docker CLI
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list \
+    && apt-get update && apt-get install -y docker-ce-cli docker-buildx-plugin docker-compose-plugin \
+    && rm -rf /var/lib/apt/lists/*
+
+# Instalar kubectl
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
+    && chmod +x kubectl \
+    && mv kubectl /usr/local/bin/
+
+# Instalar KinD
+RUN curl -Lo /usr/local/bin/kind https://kind.sigs.k8s.io/dl/v0.21.0/kind-linux-amd64 \
+    && chmod +x /usr/local/bin/kind
+
+# Instalar Helm
+RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+# Instalar K9s (cliente Kubernetes TUI)
+RUN curl -Lo k9s.tar.gz https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_amd64.tar.gz \
+    && tar -xf k9s.tar.gz \
+    && mv k9s /usr/local/bin/ \
+    && rm k9s.tar.gz LICENSE README.md
+
+# Configurar permissões para o usuário vscode
+RUN groupadd docker || true \
+    && usermod -aG docker vscode || true \
+    && mkdir -p /home/vscode/.kube \
+    && chown -R vscode:vscode /home/vscode/.kube
+
+# Criar diretório para configurações do KinD
+RUN mkdir -p /home/vscode/.kind \
+    && chown -R vscode:vscode /home/vscode/.kind
+
+# Limpar cache
+RUN apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+USER vscode
