@@ -1,0 +1,22 @@
+{
+  "name": "DevOps Environment",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+        "redhat.vscode-yaml"
+      ],
+      "settings": {}
+    }
+  },
+  "forwardPorts": [
+    2375, // Docker daemon
+    6443  // Kubernetes API server (KinD)
+  ],
+  "postCreateCommand": "kind create cluster --name devcontainer-cluster",
+  "remoteUser": "vscode"
+}
