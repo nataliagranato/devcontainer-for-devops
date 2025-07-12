@@ -114,6 +114,57 @@ install_project_deps() {
   else
     echo "✗ AWS CLI não encontrado"
   fi
+
+  # Verificar Azure CLI
+  if command -v az &> /dev/null; then
+    echo "✓ Azure CLI: $(az version --output tsv --query '\"azure-cli\"')"
+  else
+    echo "✗ Azure CLI não encontrado"
+  fi
+
+  # Verificar Google Cloud SDK
+  if command -v gcloud &> /dev/null; then
+    echo "✓ Google Cloud SDK: $(gcloud version --format='value(Google Cloud SDK)' 2>/dev/null | head -1)"
+  else
+    echo "✗ Google Cloud SDK não encontrado"
+  fi
+
+  # Verificar GitHub CLI
+  if command -v gh &> /dev/null; then
+    echo "✓ GitHub CLI: $(gh version | head -1)"
+  else
+    echo "✗ GitHub CLI não encontrado"
+  fi
+
+  # Verificar Ansible
+  if command -v ansible &> /dev/null; then
+    echo "✓ Ansible: $(ansible --version | head -1)"
+  else
+    echo "✗ Ansible não encontrado"
+  fi
+
+  # Verificar Packer
+  if command -v packer &> /dev/null; then
+    echo "✓ Packer: $(packer version)"
+  else
+    echo "✗ Packer não encontrado"
+  fi
+
+  # Verificar Pulumi
+  if command -v pulumi &> /dev/null; then
+    echo "✓ Pulumi: $(pulumi version)"
+  else
+    echo "✗ Pulumi não encontrado"
+  fi
+
+  # Verificar outras ferramentas essenciais
+  for tool in kubectl helm k9s kind stern yq jq curl httpie make; do
+    if command -v $tool &> /dev/null; then
+      echo "✓ $tool: disponível"
+    else
+      echo "✗ $tool não encontrado"
+    fi
+  done
 }
 
 # Execução principal

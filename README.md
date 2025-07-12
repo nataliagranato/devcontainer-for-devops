@@ -32,6 +32,33 @@ O DevContainer configurado neste repositório oferece as seguintes funcionalidad
    - **Terragrunt**: Para gerenciar configurações Terraform em larga escala.
    - **Golang**: Linguagem de programação Go para desenvolvimento de ferramentas DevOps.
    - **AWS CLI v2**: Para interagir com serviços da Amazon Web Services.
+   - **Azure CLI**: Para interagir com serviços da Microsoft Azure.
+   - **Google Cloud SDK (gcloud)**: Para interagir com serviços do Google Cloud Platform.
+   - **GitHub CLI (gh)**: Para interagir com GitHub via linha de comando.
+   - **Ansible**: Para automação de configuração e gerenciamento de infraestrutura.
+   - **Packer**: Para criação de imagens de máquinas automatizadas.
+   - **Pulumi**: Para infraestrutura como código usando linguagens de programação modernas.
+   - **Chef Workstation**: Para automação de configuração usando Chef.
+   - **Puppet**: Para automação de configuração e gerenciamento de sistemas.
+   - **Stern**: Para logs multi-pod no Kubernetes.
+   - **yq**: Para processamento de arquivos YAML.
+   - **jq**: Para processamento de dados JSON.
+   - **curl**: Para transferência de dados via HTTP/HTTPS.
+   - **httpie**: Cliente HTTP amigável para linha de comando.
+   - **promtool**: Para validação de configurações do Prometheus.
+   - **tfsec**: Análise de segurança estática para Terraform.
+   - **kubescape**: Scanner de segurança para clusters Kubernetes.
+   - **kube-bench**: Verificador de segurança para Kubernetes baseado no CIS Benchmark.
+   - **kubectx**: Para alternar entre contextos do Kubernetes facilmente.
+   - **kubens**: Para alternar between namespaces do Kubernetes facilmente.
+   - **Kustomize**: Para personalização de configurações Kubernetes.
+   - **Sops**: Para criptografia de secrets em arquivos de configuração.
+   - **Vault CLI**: Para gerenciamento de secrets usando HashiCorp Vault.
+   - **Minikube**: Para executar Kubernetes localmente.
+   - **Skaffold**: Para desenvolvimento iterativo em Kubernetes.
+   - **pre-commit**: Para execução de hooks Git antes de commits.
+   - **make**: Para automação de builds e tarefas.
+   - **Task**: Alternativa moderna ao make para automação de tarefas.
 
 3. **Configuração Automática**:
    - O script `post-create.sh` é executado automaticamente após a criação do DevContainer, configurando:
