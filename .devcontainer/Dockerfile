@@ -39,6 +39,42 @@ RUN curl -Lo k9s.tar.gz https://github.com/derailed/k9s/releases/latest/download
     && mv k9s /usr/local/bin/ \
     && rm k9s.tar.gz LICENSE README.md
 
+# Golang
+RUN curl -fsSL https://go.dev/dl/go1.24.5.linux-amd64.tar.gz -o go.tar.gz \
+    && tar -C /usr/local -xzf go.tar.gz \
+    && rm go.tar.gz
+ENV PATH="/usr/local/go/bin:${PATH}"
+
+# Terraform
+RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" > /etc/apt/sources.list.d/hashicorp.list \
+    && apt-get update && apt-get install -y terraform \
+    && rm -rf /var/lib/apt/lists/*
+
+# OpenTofu
+RUN curl -fsSL https://get.opentofu.org/install-opentofu.sh -o install-opentofu.sh \
+    && chmod +x install-opentofu.sh \
+    && ./install-opentofu.sh --install-method deb \
+    && rm install-opentofu.sh
+
+# terraform-docs
+RUN TERRAFORM_DOCS_VERSION=$(curl -s https://api.github.com/repos/terraform-docs/terraform-docs/releases/latest | grep tag_name | cut -d '"' -f 4) \
+    && curl -Lo terraform-docs.tar.gz "https://github.com/terraform-docs/terraform-docs/releases/latest/download/terraform-docs-${TERRAFORM_DOCS_VERSION}-linux-amd64.tar.gz" \
+    && tar -xzf terraform-docs.tar.gz \
+    && chmod +x terraform-docs \
+    && mv terraform-docs /usr/local/bin/ \
+    && rm terraform-docs.tar.gz
+
+# Terragrunt
+RUN curl -Lo /usr/local/bin/terragrunt https://github.com/gruntwork-io/terragrunt/releases/latest/download/terragrunt_linux_amd64 \
+    && chmod +x /usr/local/bin/terragrunt
+
+# AWS CLI v2
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+    && unzip awscliv2.zip \
+    && ./aws/install \
+    && rm -rf awscliv2.zip aws
+
 # Permissões e sudo sem senha para vscode
 RUN groupadd -f docker \
     && usermod -aG docker vscode \

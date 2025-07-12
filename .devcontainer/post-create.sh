@@ -69,7 +69,51 @@ EOF
 # Instalar dependências do projeto (opcional)
 install_project_deps() {
   echo "Instalando dependências adicionais do projeto..."
-  # Adicione comandos adicionais aqui, se necessário
+  
+  # Verificar se as ferramentas DevOps estão instaladas e funcionando
+  echo "Verificando ferramentas DevOps..."
+  
+  # Verificar Terraform
+  if command -v terraform &> /dev/null; then
+    echo "✓ Terraform: $(terraform version -json | jq -r '.terraform_version')"
+  else
+    echo "✗ Terraform não encontrado"
+  fi
+  
+  # Verificar OpenTofu
+  if command -v tofu &> /dev/null; then
+    echo "✓ OpenTofu: $(tofu version | head -1)"
+  else
+    echo "✗ OpenTofu não encontrado"
+  fi
+  
+  # Verificar terraform-docs
+  if command -v terraform-docs &> /dev/null; then
+    echo "✓ terraform-docs: $(terraform-docs version)"
+  else
+    echo "✗ terraform-docs não encontrado"
+  fi
+  
+  # Verificar Terragrunt
+  if command -v terragrunt &> /dev/null; then
+    echo "✓ Terragrunt: $(terragrunt --version | head -1)"
+  else
+    echo "✗ Terragrunt não encontrado"
+  fi
+  
+  # Verificar Golang
+  if command -v go &> /dev/null; then
+    echo "✓ Golang: $(go version)"
+  else
+    echo "✗ Golang não encontrado"
+  fi
+  
+  # Verificar AWS CLI
+  if command -v aws &> /dev/null; then
+    echo "✓ AWS CLI: $(aws --version)"
+  else
+    echo "✗ AWS CLI não encontrado"
+  fi
 }
 
 # Execução principal
