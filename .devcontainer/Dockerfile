@@ -13,7 +13,6 @@ RUN apt-get update && apt-get install -y \
     unzip \
     jq \
     sudo \
-    wget \
     && rm -rf /var/lib/apt/lists/*
 
 # Docker CLI
@@ -41,9 +40,9 @@ RUN curl -Lo k9s.tar.gz https://github.com/derailed/k9s/releases/latest/download
     && rm k9s.tar.gz LICENSE README.md
 
 # Golang
-RUN wget -q https://go.dev/dl/go1.22.0.linux-amd64.tar.gz \
-    && tar -C /usr/local -xzf go1.22.0.linux-amd64.tar.gz \
-    && rm go1.22.0.linux-amd64.tar.gz
+RUN curl -fsSL https://go.dev/dl/go1.24.5.linux-amd64.tar.gz -o go.tar.gz \
+    && tar -C /usr/local -xzf go.tar.gz \
+    && rm go.tar.gz
 ENV PATH="/usr/local/go/bin:${PATH}"
 
 # Terraform

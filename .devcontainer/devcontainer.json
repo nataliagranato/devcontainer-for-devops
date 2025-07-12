@@ -14,7 +14,10 @@
         "redhat.vscode-yaml",
         "streetsidesoftware.code-spell-checker",
         "ms-vscode-remote.remote-containers",
-        "github.copilot"
+        "github.copilot",
+        "hashicorp.terraform",
+        "ms-vscode.go",
+        "amazonwebservices.aws-toolkit-vscode"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "bash",
