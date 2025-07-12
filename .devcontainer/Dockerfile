@@ -110,32 +110,34 @@ ENV PATH="/root/.pulumi/bin:${PATH}"
 RUN curl -L https://omnitruck.chef.io/install.sh | bash -s -- -P chef-workstation
 
 # yq
-RUN YQ_VERSION=$(curl -s https://api.github.com/repos/mikefarah/yq/releases/latest | grep tag_name | cut -d '"' -f 4) \
+RUN YQ_VERSION=$(curl -s https://api.github.com/repos/mikefarah/yq/releases/latest | grep tag_name | cut -d '"' -f 4 | head -1) \
     && curl -Lo /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64" \
     && chmod +x /usr/local/bin/yq
 
 # stern
-RUN STERN_VERSION=$(curl -s https://api.github.com/repos/stern/stern/releases/latest | grep tag_name | cut -d '"' -f 4) \
+RUN STERN_VERSION=$(curl -s https://api.github.com/repos/stern/stern/releases/latest | grep tag_name | cut -d '"' -f 4 | head -1) \
     && curl -Lo /usr/local/bin/stern "https://github.com/stern/stern/releases/latest/download/stern_linux_amd64" \
     && chmod +x /usr/local/bin/stern
 
-# tfsec
-RUN TFSEC_VERSION=$(curl -s https://api.github.com/repos/aquasecurity/tfsec/releases/latest | grep tag_name | cut -d '"' -f 4) \
+# tfsec  
+RUN TFSEC_VERSION=$(curl -s https://api.github.com/repos/aquasecurity/tfsec/releases/latest | grep tag_name | cut -d '"' -f 4 | head -1) \
     && curl -Lo /usr/local/bin/tfsec "https://github.com/aquasecurity/tfsec/releases/latest/download/tfsec-linux-amd64" \
     && chmod +x /usr/local/bin/tfsec
 
 # kubescape
-RUN curl -s https://raw.githubusercontent.com/kubescape/kubescape/master/install.sh | bash
+RUN curl -s https://raw.githubusercontent.com/kubescape/kubescape/master/install.sh | bash || \
+    (curl -Lo /usr/local/bin/kubescape "https://github.com/kubescape/kubescape/releases/latest/download/kubescape-ubuntu-latest" \
+    && chmod +x /usr/local/bin/kubescape)
 
 # kube-bench
-RUN KUBE_BENCH_VERSION=$(curl -s https://api.github.com/repos/aquasecurity/kube-bench/releases/latest | grep tag_name | cut -d '"' -f 4) \
+RUN KUBE_BENCH_VERSION=$(curl -s https://api.github.com/repos/aquasecurity/kube-bench/releases/latest | grep tag_name | cut -d '"' -f 4 | head -1) \
     && curl -Lo kube-bench.tar.gz "https://github.com/aquasecurity/kube-bench/releases/latest/download/kube-bench_${KUBE_BENCH_VERSION#v}_linux_amd64.tar.gz" \
     && tar -xzf kube-bench.tar.gz \
     && mv kube-bench /usr/local/bin/ \
     && rm kube-bench.tar.gz
 
 # kubectx and kubens
-RUN KUBECTX_VERSION=$(curl -s https://api.github.com/repos/ahmetb/kubectx/releases/latest | grep tag_name | cut -d '"' -f 4) \
+RUN KUBECTX_VERSION=$(curl -s https://api.github.com/repos/ahmetb/kubectx/releases/latest | grep tag_name | cut -d '"' -f 4 | head -1) \
     && curl -Lo /usr/local/bin/kubectx "https://github.com/ahmetb/kubectx/releases/latest/download/kubectx" \
     && curl -Lo /usr/local/bin/kubens "https://github.com/ahmetb/kubectx/releases/latest/download/kubens" \
     && chmod +x /usr/local/bin/kubectx /usr/local/bin/kubens
@@ -148,7 +150,7 @@ RUN KUSTOMIZE_VERSION=$(curl -s https://api.github.com/repos/kubernetes-sigs/kus
     && rm kustomize.tar.gz
 
 # Sops
-RUN SOPS_VERSION=$(curl -s https://api.github.com/repos/getsops/sops/releases/latest | grep tag_name | cut -d '"' -f 4) \
+RUN SOPS_VERSION=$(curl -s https://api.github.com/repos/getsops/sops/releases/latest | grep tag_name | cut -d '"' -f 4 | head -1) \
     && curl -Lo /usr/local/bin/sops "https://github.com/getsops/sops/releases/latest/download/sops-${SOPS_VERSION}.linux.amd64" \
     && chmod +x /usr/local/bin/sops
 
@@ -161,21 +163,21 @@ RUN curl -Lo /usr/local/bin/skaffold "https://storage.googleapis.com/skaffold/re
     && chmod +x /usr/local/bin/skaffold
 
 # Task
-RUN TASK_VERSION=$(curl -s https://api.github.com/repos/go-task/task/releases/latest | grep tag_name | cut -d '"' -f 4) \
+RUN TASK_VERSION=$(curl -s https://api.github.com/repos/go-task/task/releases/latest | grep tag_name | cut -d '"' -f 4 | head -1) \
     && curl -Lo task.tar.gz "https://github.com/go-task/task/releases/latest/download/task_linux_amd64.tar.gz" \
     && tar -xzf task.tar.gz \
     && mv task /usr/local/bin/ \
     && rm task.tar.gz
 
 # promtool (from Prometheus)
-RUN PROMETHEUS_VERSION=$(curl -s https://api.github.com/repos/prometheus/prometheus/releases/latest | grep tag_name | cut -d '"' -f 4) \
+RUN PROMETHEUS_VERSION=$(curl -s https://api.github.com/repos/prometheus/prometheus/releases/latest | grep tag_name | cut -d '"' -f 4 | head -1) \
     && curl -Lo prometheus.tar.gz "https://github.com/prometheus/prometheus/releases/latest/download/prometheus-${PROMETHEUS_VERSION#v}.linux-amd64.tar.gz" \
     && tar -xzf prometheus.tar.gz \
     && mv prometheus-${PROMETHEUS_VERSION#v}.linux-amd64/promtool /usr/local/bin/ \
     && rm -rf prometheus.tar.gz prometheus-${PROMETHEUS_VERSION#v}.linux-amd64
 
 # Fix K9s installation
-RUN K9S_VERSION=$(curl -s https://api.github.com/repos/derailed/k9s/releases/latest | grep tag_name | cut -d '"' -f 4) \
+RUN K9S_VERSION=$(curl -s https://api.github.com/repos/derailed/k9s/releases/latest | grep tag_name | cut -d '"' -f 4 | head -1) \
     && curl -Lo k9s.tar.gz "https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_amd64.tar.gz" \
     && tar -xzf k9s.tar.gz \
     && mv k9s /usr/local/bin/ \

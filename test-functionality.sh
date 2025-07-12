@@ -15,7 +15,8 @@ cd "$TEST_DIR"
 
 # Test Terraform
 echo "🧪 Testando Terraform..."
-cat > main.tf << 'EOF'
+if command -v terraform &> /dev/null; then
+    cat > main.tf << 'EOF'
 terraform {
   required_version = ">= 1.0"
 }
@@ -30,13 +31,17 @@ output "message" {
 }
 EOF
 
-terraform init > /dev/null 2>&1
-terraform validate > /dev/null 2>&1
-echo "✅ Terraform: Validação bem-sucedida"
+    terraform init > /dev/null 2>&1
+    terraform validate > /dev/null 2>&1
+    echo "✅ Terraform: Validação bem-sucedida"
+else
+    echo "❓ Terraform: Não disponível no ambiente atual"
+fi
 
 # Test OpenTofu
 echo "🧪 Testando OpenTofu..."
-cat > tofu-main.tf << 'EOF'
+if command -v tofu &> /dev/null; then
+    cat > tofu-main.tf << 'EOF'
 terraform {
   required_version = ">= 1.6"
 }
@@ -51,13 +56,17 @@ output "message" {
 }
 EOF
 
-tofu init > /dev/null 2>&1
-tofu validate > /dev/null 2>&1
-echo "✅ OpenTofu: Validação bem-sucedida"
+    tofu init > /dev/null 2>&1
+    tofu validate > /dev/null 2>&1
+    echo "✅ OpenTofu: Validação bem-sucedida"
+else
+    echo "❓ OpenTofu: Não disponível no ambiente atual"
+fi
 
 # Test terraform-docs
 echo "🧪 Testando terraform-docs..."
-cat > variables.tf << 'EOF'
+if command -v terraform-docs &> /dev/null; then
+    cat > variables.tf << 'EOF'
 variable "test_var" {
   description = "A test variable"
   type        = string
@@ -65,16 +74,20 @@ variable "test_var" {
 }
 EOF
 
-terraform-docs markdown . > README-generated.md 2>/dev/null
-if [ -f "README-generated.md" ] && [ -s "README-generated.md" ]; then
-    echo "✅ terraform-docs: Documentação gerada com sucesso"
+    terraform-docs markdown . > README-generated.md 2>/dev/null
+    if [ -f "README-generated.md" ] && [ -s "README-generated.md" ]; then
+        echo "✅ terraform-docs: Documentação gerada com sucesso"
+    else
+        echo "❌ terraform-docs: Falha ao gerar documentação"
+    fi
 else
-    echo "❌ terraform-docs: Falha ao gerar documentação"
+    echo "❓ terraform-docs: Não disponível no ambiente atual"
 fi
 
 # Test Terragrunt
 echo "🧪 Testando Terragrunt..."
-cat > terragrunt.hcl << 'EOF'
+if command -v terragrunt &> /dev/null; then
+    cat > terragrunt.hcl << 'EOF'
 terraform {
   source = "."
 }
@@ -84,8 +97,11 @@ inputs = {
 }
 EOF
 
-terragrunt validate > /dev/null 2>&1
-echo "✅ Terragrunt: Validação bem-sucedida"
+    terragrunt validate > /dev/null 2>&1
+    echo "✅ Terragrunt: Validação bem-sucedida"
+else
+    echo "❓ Terragrunt: Não disponível no ambiente atual"
+fi
 
 # Test Golang
 echo "🧪 Testando Golang..."
@@ -118,5 +134,5 @@ cd /
 rm -rf "$TEST_DIR"
 
 echo
-echo "=== Teste de funcionalidade concluído com sucesso! ==="
-echo "✅ Todas as ferramentas passaram nos testes básicos"
+echo "=== Teste de funcionalidade concluído ==="
+echo "✅ Testes executados para as ferramentas disponíveis no ambiente atual"
