@@ -26,6 +26,12 @@ O DevContainer configurado neste repositório oferece as seguintes funcionalidad
    - **KinD (Kubernetes in Docker)**: Para criar e gerenciar clusters Kubernetes locais.
    - **Helm**: Para gerenciar pacotes Kubernetes.
    - **K9s**: Para monitorar e gerenciar clusters Kubernetes via terminal.
+   - **Terraform**: Para infraestrutura como código (IaC).
+   - **OpenTofu**: Alternativa open-source ao Terraform para IaC.
+   - **terraform-docs**: Para gerar documentação de módulos Terraform.
+   - **Terragrunt**: Para gerenciar configurações Terraform em larga escala.
+   - **Golang**: Linguagem de programação Go para desenvolvimento de ferramentas DevOps.
+   - **AWS CLI v2**: Para interagir com serviços da Amazon Web Services.
 
 3. **Configuração Automática**:
    - O script `post-create.sh` é executado automaticamente após a criação do DevContainer, configurando:
